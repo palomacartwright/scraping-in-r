@@ -1,0 +1,47 @@
+---
+title: "Intro to Scraping in R"
+author: "Paloma Cartwright"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+librarian::shelf(rvest, tidyverse)
+```
+
+
+# point to the URL
+
+```{r}
+url <- "https://www.portoflosangeles.org/business/statistics/container-statistics/historical-teu-statistics-2021"
+```
+
+# Read in the html info 
+
+```{r}
+html <- read_html(url)
+```
+
+# pull info from the html 
+
+```{r}
+
+paragraphs <- html %>% 
+  html_elements("p")
+
+paragraph_vector <- paragraphs %>% html_text()
+
+titles <- html %>% html_elements("title")
+
+level2_headers <- html %>% html_elements("h2") %>% html_text()
+
+tables <- html %>% 
+  html_elements("table")
+tables
+
+tables_clean <- html_table(html)
+tables_clean[[1]]
+
+```
+
